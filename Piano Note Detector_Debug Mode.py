@@ -1,8 +1,9 @@
 """
-This is the user program of the project "Piano Note Detector"
+This is the debug program of the project "Piano Note Detector"
 produced by Chenxi Qian and Weixiang Liu (Victor)
 
 This program will display the detected keynotes on the GUI window.
+The microphone input spectra will also be plotted for reference.
 """
 
 
@@ -10,7 +11,7 @@ import pyaudio
 import struct
 import numpy as np
 import tkinter as Tk
-from scipy.fft import fft, signal
+from scipy import fft, signal
 import time
 from matplotlib import pyplot as plt
 
