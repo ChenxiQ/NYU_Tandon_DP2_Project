@@ -1,9 +1,8 @@
 """
-This is the debug program of the project "Piano Note Detector"
+This is the user program of the project "Piano Note Detector"
 produced by Chenxi Qian and Weixiang Liu (Victor)
 
 This program will display the detected keynotes on the GUI window.
-The microphone input spectra will also be plotted for reference.
 """
 
 
@@ -11,9 +10,9 @@ import pyaudio
 import struct
 import numpy as np
 import tkinter as Tk
-from scipy import fft, signal
+from scipy.fft import fft
+from scipy import signal
 import time
-from matplotlib import pyplot as plt
 
 
 # GUI functions definition
@@ -346,26 +345,8 @@ for i in range(total_note_num):
 for i in range(0, num_points_approx * (num_of_fundamental + num_of_harmonics), num_points_approx):
     for j in range(num_points_approx):
         note_pos[:, i + j] = note_pos_temp[:, int(i / num_points_approx)] + (j - 1)
-        
-        
-# Initialize plot window:
-plt.ion()       
-fig = plt.figure()
 
-# setting up plot figure
-ax = fig.gca()
-line, = ax.plot([],[],'r')
-line.set_xdata(f)
 
-plt.ylim(0, 10*RATE)
-plt.xlim(0, 2000)  # but we only care ~261 to ~987Hz  
-
-ax.set_title('frequency spectra of microphone input')
-plt.xlabel('Frequency (Hz)')
-line.set_label("FFT of input signal")
-plt.legend()
-        
-        
 # Open audio device:
 p = pyaudio.PyAudio()
 stream = p.open(
@@ -389,10 +370,7 @@ for i in range(0, NumBlocks):
 
     # Computing FFT:
     X1 = np.abs(fft(input_tuple * window))  # Use a Hamming window to smooth current segment of signal
-    line.set_ydata(X1)
-    plt.pause(0.001)
-    fig.canvas.draw() 
-    
+
     if np.max(X1) > 10000:  # 10000 is used basically as an arbitrary power level for note on-set detection
 
         # Summing up all powers for each note at their fundamental and harmonics frequencies
@@ -414,7 +392,6 @@ for i in range(0, NumBlocks):
 
         eval(note_list[output_note_ind] + 'Pressed()')  # Call the GUI functions accordingly
 
-        
 stream.stop_stream()
 stream.close()
 p.terminate()
