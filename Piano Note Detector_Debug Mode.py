@@ -345,7 +345,6 @@ for i in range(total_note_num):
 for i in range(0, num_points_approx * (num_of_fundamental + num_of_harmonics), num_points_approx):
     for j in range(num_points_approx):
         note_pos[:, i + j] = note_pos_temp[:, int(i / num_points_approx)] + (j - 1)
-
         
         
 # Initialize plot window:
